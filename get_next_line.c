@@ -1,16 +1,39 @@
 #include "get_next_line.h"
+#include "get_next_line_utils.c"
+// void ft_stock(char *p)
+// {
+//     static 	char	*join;
+//     static int		i;
+// 	int				j;
+
+// 	j = 0;
+// 	if (i == 0)
+// 	{
+//     	while (p[j])
+// 		{
+// 			join[j] = p[j];
+// 			j++;
+// 		}
+// 	}
+// 	else
+// 		join = ft_strjoin(join, p);
+// 	i++;
+// 	printf("%s\n", join);
+// }
+
 char *get_next_line(int fd)
 {
-    char        s[BUFFER_SIZE + 1];
+    char        s[BUFFER_SIZE];
     int         rd;
-    static char *temp;
+    char		*temp;
     int         i;
+	char		*stock;
 
     rd = read(fd, &s, BUFFER_SIZE);
     while (rd != 0)
     {
-        temp = malloc(rd + 1);
         i = 0;
+        temp = malloc(rd + 1);
         while (s[i])
         {
             if (s[i] != '\n' && s[i] != '\0')
@@ -21,9 +44,10 @@ char *get_next_line(int fd)
             else
                 return (&temp[0]);
         }
-        printf("%s\n", temp);
+		stock = ft_strjoin(stock, temp);
+		printf("%s\n", stock);
+		free(temp);
         rd = read(fd, &s, BUFFER_SIZE);
     }
-    printf("%s\n", temp);
     return 0;
 }
