@@ -8,8 +8,8 @@ int	there_isn(char *s)
 	i = 0;
 	while (i < BUFFER_SIZE)
 	{
-		if (s[i] == '\n')
-			return (1);
+		if (s[i] == '\n' || s[i] == '\0')
+			return (i);
 		i++;
 	}
 	return (0);
@@ -21,14 +21,14 @@ char	*get_next_line(int fd)
 	int				i;
 	int				rd;
 
-	i = 0;
 	rd = read(fd, &s, BUFFER_SIZE);
 	s[BUFFER_SIZE] = '\0';
 	stock = ft_strdup(s);
-	while (rd != 0)
+	while (rd != 0 && rd != -1)
 	{
-		if (there_isn(s))
-			return (ft_substr(stock, 0, ft_strlen(stock) - 1));
+		i = there_isn(s);
+		if (i)
+			return (ft_substr(stock, 0, ft_strlen(stock) + (i - 1)));
 		else
 		{
 			rd = read (fd, &s, BUFFER_SIZE);
