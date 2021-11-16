@@ -1,6 +1,4 @@
 #include "get_next_line.h"
-#include "get_next_line_utils.c"
-#define BUFFER_SIZE 18
 
 int	there_isn(char *s)
 {
@@ -9,17 +7,19 @@ int	there_isn(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\n' || s[i] == '\0')
+		if (s[i] == '\n')
 			return (i);
 		i++;
 	}
+	if (!s[i])
+		return (i);
 	return (0);
 }
 
 char	*get_next_line(int fd)
 {
-	char			s[BUFFER_SIZE + 1];
 	static char		*stock;
+	char			s[BUFFER_SIZE + 1];
 	int				i;
 	int				rd;
 	char			*temp;
@@ -33,10 +33,12 @@ char	*get_next_line(int fd)
 	while (rd != 0 && rd != -1)
 	{
 		i = there_isn(stock);
+		// printf("i: %d\n", i);
 		if (i)
 		{
 			char *ret = ft_substr(stock, 0, i);
 			stock = ft_substr(stock, i + 1, ft_strlen(stock));
+			// printf("stock: %s|\n", stock);
 			return (ret);
 		}
 		else
