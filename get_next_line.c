@@ -1,53 +1,38 @@
 #include "get_next_line.h"
 #include "get_next_line_utils.c"
-#define BUFFER_SIZE 5
-char	*ft_check(char *s)
-{
-	while (i < len)
-		{
-			if (stock[i] == '\n')
-			{
-				stock = ft_substr(s, 0, i);
-				return (stock);
-			}
-			else if (stock[i + 1] == '\0')
-			{
-				temp = stock;
-				read (fd, &s, BUFFER_SIZE);
-				stock = ft_strjoin(temp, stock);
-			}
-			i++;
-		}
-}
-char *get_next_line(int fd)
-{
-    char	s[BUFFER_SIZE];
-    static	char	*stock;
-    int         	i;
-	int				rd;
-	char			*temp;
-	int				len;
 
-    rd = read (fd, &s, BUFFER_SIZE);
+int	there_isn(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (i < BUFFER_SIZE)
+	{
+		if (s[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+char	*get_next_line(int fd)
+{
+	char			s[BUFFER_SIZE + 1];
+	static char		*stock;
+	int				i;
+	int				rd;
+
+	i = 0;
+	rd = read(fd, &s, BUFFER_SIZE);
+	s[BUFFER_SIZE] = '\0';
 	stock = ft_strdup(s);
 	while (rd != 0)
 	{
-		i = 0;
-		len = ft_strlen(stock);
-		while (i < len)
+		if (there_isn(s))
+			return (ft_substr(stock, 0, ft_strlen(stock) - 1));
+		else
 		{
-			if (stock[i] == '\n')
-			{
-				stock = ft_substr(s, 0, i);
-				return (stock);
-			}
-			else if (stock[i + 1] == '\0')
-			{
-				temp = stock;
-				read (fd, &s, BUFFER_SIZE);
-				stock = ft_strjoin(temp, stock);
-			}
-			i++;
+			rd = read (fd, &s, BUFFER_SIZE);
+			stock = ft_strjoin(stock, s);
 		}
 	}
 	return (0);
