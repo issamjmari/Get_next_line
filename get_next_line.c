@@ -1,51 +1,28 @@
 #include "get_next_line.h"
 
-int	there_isn(char *s)
+char *stock_n(int fd, char *s)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\n')
-			return (i);
-		i++;
-	}
-	if (!s[i])
-		return (i);
-	return (0);
-}
-
-char	*get_next_line(int fd)
-{
-	static char		*stock;
-	char			s[BUFFER_SIZE + 1];
-	int				i;
-	int				rd;
-	char			*temp;
+	char	*temp;
+	char	*sum;
+	int		rd;
 
 	rd = read(fd, &s, BUFFER_SIZE);
 	s[BUFFER_SIZE] = '\0';
-	if (!stock)
-		stock = ft_strdup(s);
-	else
-		stock = ft_strjoin(stock, s);
-	while (rd != 0 && rd != -1)
+	sum = ft_strdup(s);
+	while (rd != 0)
 	{
-		i = there_isn(stock);
-		// printf("i: %d\n", i);
-		if (i)
-		{
-			char *ret = ft_substr(stock, 0, i);
-			stock = ft_substr(stock, i + 1, ft_strlen(stock));
-			// printf("stock: %s|\n", stock);
-			return (ret);
-		}
-		else
-		{
-			rd = read (fd, &s, BUFFER_SIZE);
-			stock = ft_strjoin(stock, s);
-		}
+		rd = read(fd, &s, BUFFER_SIZE);
+		s[BUFFER_SIZE] = '\0';
+		sum = ft_strjoin(sum, s);
 	}
+	printf("%s\n", sum);
+	return (0);
+}
+char	*get_next_line(int fd)
+{
+	char	*stock;
+	char	s[BUFFER_SIZE + 1];
+
+	stock = stock_n(fd, s);
 	return (0);
 }
