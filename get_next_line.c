@@ -8,7 +8,7 @@ int	there_isn(char *s)
 	while (s[i])
 	{
 		if (s[i] == '\n')
-			return (1);
+			return (1); 
 		i++;
 	}
 	return (0);
@@ -18,19 +18,19 @@ char	*ft_get_tilln(const char *stock)
 	int	i;
 
 	i = 0;
-	while (stock[i])
-	{
-		if (stock[i] == '\n')
-			return (ft_substr(stock, 0, i));
+	if (!stock)
+		return (NULL);
+	while (stock[i] && stock[i] != '\n')		
 		i++;
-	}
-	return (0);
+	return (ft_substr(stock, 0, i));
 }
 char	*ft_remain(char *stock)
 {
 	int	i;
 
 	i = 0;
+	if (!stock)
+		return (NULL);
 	while (stock[i])
 	{
 		if (stock[i] == '\n')
@@ -46,17 +46,16 @@ char	*ft_form(int fd, char *stock)
 
 	temp = malloc (BUFFER_SIZE + 1);
 	rd = 1;
-	while (rd >= 0)
+	while (rd != 0 || !there_isn(stock))
 	{
 		rd = read (fd, temp, BUFFER_SIZE);
 		if (rd == 0)
 			return (stock);
-		temp[BUFFER_SIZE] = '\0';
+		temp[rd] = '\0';
 		stock = ft_strjoin(stock, temp);
-		if (there_isn(stock))
-			return (stock);
 	}
-	return (0);
+	free (temp);
+	return (stock);
 }
 char	*get_next_line(int fd)
 {

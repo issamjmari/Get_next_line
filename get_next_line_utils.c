@@ -10,7 +10,7 @@ size_t  ft_strlen(const char *s)
         return (i);
 }
 
-char    *ft_strjoin(char const *s1, char const *s2)
+char    *ft_strjoin(char *s1, char *s2)
 {
         int             i;
         int             j;
@@ -34,6 +34,7 @@ char    *ft_strjoin(char const *s1, char const *s2)
         while (i < (ls1 + ls2))
                 new[i++] = s2[j++];
         new[i] = '\0';
+        free (s1);
         return (new);
 }
 
