@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ijmari <ijmari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:51:59 by ijmari            #+#    #+#             */
-/*   Updated: 2021/11/19 15:55:06 by ijmari           ###   ########.fr       */
+/*   Updated: 2021/11/19 16:21:02 by ijmari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
-# include <fcntl.h>
+# define FD_MAX 1024
 
 size_t	ft_strlen(const char *s);
 char	*get_next_line(int fd);

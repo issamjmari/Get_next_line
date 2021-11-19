@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ijmari <ijmari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:47:01 by ijmari            #+#    #+#             */
-/*   Updated: 2021/11/19 15:51:34 by ijmari           ###   ########.fr       */
+/*   Updated: 2021/11/19 16:15:13 by ijmari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	there_isn(char *s)
 {
@@ -81,17 +81,17 @@ char	*ft_form(int fd, char *stock)
 char	*get_next_line(int fd)
 {
 	char		*ret;
-	static char	*stock;
+	static char	*stock[FD_MAX];
 	char		*old_value;
 
-	if (fd < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 && fd > FD_MAX || BUFFER_SIZE < 0)
 		return (NULL);
-	stock = ft_form(fd, stock);
-	if (!stock)
+	stock[fd] = ft_form(fd, stock[fd]);
+	if (!stock[fd])
 		return (NULL);
-	ret = ft_get_tilln(stock);
-	old_value = stock;
-	stock = ft_remain(stock);
+	ret = ft_get_tilln(stock[fd]);
+	old_value = stock[fd];
+	stock[fd] = ft_remain(stock[fd]);
 	free(old_value);
 	return (ret);
 }
