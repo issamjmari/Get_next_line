@@ -6,7 +6,7 @@
 /*   By: ijmari <ijmari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:47:01 by ijmari            #+#    #+#             */
-/*   Updated: 2021/11/19 16:15:13 by ijmari           ###   ########.fr       */
+/*   Updated: 2021/11/19 17:51:55 by ijmari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*get_next_line(int fd)
 	static char	*stock[FD_MAX];
 	char		*old_value;
 
-	if (fd < 0 && fd > FD_MAX || BUFFER_SIZE < 0)
+	if (fd < 0 || fd >= FD_MAX || BUFFER_SIZE < 0)
 		return (NULL);
 	stock[fd] = ft_form(fd, stock[fd]);
 	if (!stock[fd])
