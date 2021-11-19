@@ -1,10 +1,12 @@
-#include "/Users/ijmari/Desktop/get/get_next_line.h"
+#include "get_next_line.h"
 
 int	there_isn(char *s)
 {
 	int	i;
 
 	i = 0;
+    if (!s)
+        return (0);
 	while (s[i])
 	{
 		if (s[i] == '\n')
@@ -13,21 +15,22 @@ int	there_isn(char *s)
 	}
 	return (0);
 }
+
 char	*ft_get_tilln(const char *stock)
 {
 	int	i;
 
 	i = 0;
-	if (!stock)
+	if (!stock[0])
 		return (NULL);
 	while (stock[i] && stock[i] != '\n')		
 		i++;
-	return (ft_substr(stock, 0, i));
+	return (ft_substr(stock, 0, i + 1));
 }
+
 char	*ft_remain(char *stock)
 {
-	int		i;
-	char	*temp;
+	int	i;
 
 	i = 0;
 	if (!stock)
@@ -35,43 +38,48 @@ char	*ft_remain(char *stock)
 	while (stock[i])
 	{
 		if (stock[i] == '\n')
-		{
-			temp = ft_substr(stock, i + 1, ft_strlen(stock));
-			free(stock);
-			return (temp);
-		}
+			return (ft_substr(stock, i + 1, ft_strlen(stock)));
 		i++;
 	}
 	return (0);
 }
+
 char	*ft_form(int fd, char *stock)
 {
 	char	*temp;
 	int		rd;
 
-	temp = (char *) malloc (BUFFER_SIZE + 1);
+	temp = malloc (BUFFER_SIZE + 1);
 	rd = 1;
-	while (!there_isn(stock) && rd != 0)
+	while (rd != 0 && !there_isn(stock))
 	{
 		rd = read (fd, temp, BUFFER_SIZE);
 		if (rd == -1)
-		{
-			free (temp);
+        {
+            free (temp);
 			return (NULL);
-		}
+        }
 		temp[rd] = '\0';
 		stock = ft_strjoin(stock, temp);
 	}
 	free (temp);
 	return (stock);
 }
-char	*get_next_line(int fd)
+
+char    *get_next_line(int  fd)
 {
 	char		*ret;
 	static char	*stock;
+    char        *old_value;
 
+    if (fd < 0 || BUFFER_SIZE < 0)
+        return (NULL);
 	stock = ft_form(fd, stock);
+    if (!stock)
+        return (NULL);
 	ret = ft_get_tilln(stock);
+    old_value = stock;
 	stock = ft_remain(stock);
+    free(old_value);
 	return (ret);
 }
